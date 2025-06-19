@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.PathProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,8 @@ public class EmployeeController {
     private EmployeeService employeeService;
     @Autowired
     private JwtProperties jwtProperties;
+    @Autowired
+    private PathProvider pathProvider;
 
     /**
      * 登录
@@ -96,6 +99,12 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
-
+    @PostMapping("status/{status}")
+    @ApiOperation("启用禁用员工账号")
+    public Result  startOrstop(@PathVariable Integer status,Long id){
+        log.info("启用禁用员工账号：{}，{}", status, id);
+        employeeService.startOrstop(status,id);
+        return Result.success();
+    }
 
 }
